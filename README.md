@@ -67,12 +67,14 @@ For example, to isolate and log May 2026 active metrics, map csv_file = 'CRMLSLi
 Execute the routine:
 ```
 python crmls_listed.py
+
+'$filter': f"ListingContractDate ge {datetime(2026, 5, 1).isoformat(timespec='milliseconds')}Z and ListingContractDate lt {datetime(2026, 6, 1).isoformat(timespec='milliseconds')}Z",
 ```
 
 Pipeline Data Outputs
-Upon a successful operational run, the backend scripts parse multi-page API responses and save out flat structural text-stream CSV files containing regional records:
-Plaintext
--CRMLSSold202601.csv
+Upon a successful operational run, the backend scripts parse multi page API responses and save out flat structural text stream CSV files containing regional records:
+
+- CRMLSSold202601.csv
 - CRMLSSold202602.csv
 - CRMLSSold202603.csv
 - CRMLSSold202604.csv
