@@ -36,7 +36,7 @@ The transaction script isolates and exports records that reached successfully cl
 Python
 '$filter': f"MlsStatus eq 'Closed' and CloseDate ge {datetime(2026, 1, 1).isoformat(timespec='milliseconds')}Z and CloseDate lt {datetime(2026, 2, 1).isoformat(timespec='milliseconds')}Z",
 
-Note: The first datetime construct defines the beginning boundary of the target month, and the second construct defines the boundary of the following month.
+- Note: The first datetime construct defines the beginning boundary of the target month, and the second construct defines the boundary of the following month.
 Ensure you explicitly update the matching output target destination file string to avoid overwriting existing historic records:
 
 Python
@@ -56,7 +56,7 @@ Modify the parameter strings to match the targeted timeframe. Update the structu
 
 Python
 csv_file = 'CRMLSListing202601.csv'
-For example, to isolate and log April 2026 active metrics, map csv_file = 'CRMLSListing202604.csv'.
+For example, to isolate and log May 2026 active metrics, map csv_file = 'CRMLSListing202605.csv'.
 Execute the routine:
 Bash
 python crmls_listed.py
@@ -67,6 +67,10 @@ Plaintext
 ├── CRMLSSold202601.csv
 ├── CRMLSSold202602.csv
 ├── CRMLSSold202603.csv
+├── CRMLSSold202604.csv
+├── CRMLSSold202605.csv
 ├── CRMLSListing202601.csv
 ├── CRMLSListing202602.csv
 └── CRMLSListing202603.csv
+├── CRMLSListing202604.csv
+└── CRMLSListing202605.csv
