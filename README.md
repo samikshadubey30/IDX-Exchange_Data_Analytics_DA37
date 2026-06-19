@@ -4,21 +4,21 @@ This repository contains my internship project work at IDX Exchange, focused on 
 The scripts are designed to support monthly data extraction by allowing date-based filters to be adjusted as needed. The workflow streamlines data collection, transformation, and storage, enabling efficient access to real estate market data for downstream analytics and business insights.
 
 
-## 📂 Repository Contents & Automation Architecture
+## Repository Contents 
 
-### 📜 Extraction Scripts
+### Extraction Scripts
 - **`crmls_sold.py`**:
-- Extracts sold-property records from the CoreLogic Trestle API.
-- Filters data based on the CloseDate field for a specified month.
-- Exports the extracted records to a CSV file.
+  - Extracts sold-property records from the CoreLogic Trestle API.
+  - Filters data based on the CloseDate field for a specified month.
+  - Exports the extracted records to a CSV file.
   
 - **`crmls_listed.py`**:
-- Extracts active property listing records from the CoreLogic Trestle API.
-- Filters data based on the ListingContractDate field for a specified month.
-- Exports the extracted records to a CSV file.
+  - Extracts active property listing records from the CoreLogic Trestle API.
+  - Filters data based on the ListingContractDate field for a specified month.
+  - Exports the extracted records to a CSV file.
 ---
 
-## System Requirements & Dependencies
+## System Requirements 
 
 ### Python Version
 - Python 3.x
