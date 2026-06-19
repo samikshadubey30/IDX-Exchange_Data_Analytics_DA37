@@ -7,20 +7,28 @@ The scripts are designed to support monthly data extraction by allowing date-bas
 ## 📂 Repository Contents & Automation Architecture
 
 ### 📜 Extraction Scripts
-- **`crmls_sold.py`**: Interfaced with the API to extract closed property records for specified target months. [cite_start]Features logical filters tracking `CloseDate` and automatically routes matching observation matrices directly to a flat CSV format[cite: 1316, 1701].
-- **`crmls_listed.py`**: Interfaced with the API to extract property listings entering active inventory loops. [cite_start]Applies strict date-bound segmentations tracking `ListingContractDate` and structural outputs[cite: 1309, 1700].
-
+- **`crmls_sold.py`**:
+- Extracts sold-property records from the CoreLogic Trestle API.
+- Filters data based on the CloseDate field for a specified month.
+- Exports the extracted records to a CSV file.
+  
+- **`crmls_listed.py`**:
+- Extracts active property listing records from the CoreLogic Trestle API.
+- Filters data based on the ListingContractDate field for a specified month.
+- Exports the extracted records to a CSV file.
 ---
 
-## 🛠️ System Requirements & Dependencies
+## System Requirements & Dependencies
 
-### 🐍 Python Version
+### Python Version
 - Python 3.x
 
-### 📦 Dependencies
+### Dependencies
 Install the required network protocol package via your local terminal before execution:
 ```bash
 pip install requests
+
+### Running the scripts
 
 1. Generating Monthly Closed (Sold) Data
 The transaction script isolates and exports records that reached successfully closed milestones within your targeted date configurations. To capture a different calendar month, open the notebook cell and update the date boundaries within the API parameters:
