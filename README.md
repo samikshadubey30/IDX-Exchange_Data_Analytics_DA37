@@ -28,6 +28,21 @@ Install the required network protocol package via your local terminal before exe
 ```bash
 pip install requests
 
+
+Technical Running Instructions
+1. Generating Monthly Closed (Sold) Data
+The transaction script isolates and exports properties that successfully completed their closing checkpoints within the target month. To shift the routine to run a new target window, update the chronological boundary values inside the API filter layout:
+
+Python
+'$filter': f"MlsStatus eq 'Closed' and CloseDate ge {datetime(2026, 1, 1).isoformat(timespec='milliseconds')}Z and CloseDate lt {datetime(2026, 2, 1).isoformat(timespec='milliseconds')}Z",
+
+Note: The first date string defines the absolute start point of your target evaluation month. The second date string captures the first day of the following calendar month.
+Ensure you explicitly adjust the corresponding filename target string to avoid overwriting your existing clean datasets:
+
+csv_file = 'CRMLSSold202601.csv'
+
+
+
 ### Running the scripts
 
 1. Generating Monthly Closed (Sold) Data
