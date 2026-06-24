@@ -88,16 +88,12 @@ Total Rows Kept (After Residential Filter): 591,890 rows
 Done! Master file saved successfully to: /Users/samikshadubey/Downloads/IDX Code/Files/listings.csv
 
 
-# Week 1 - Monthly Dataset Aggregation
-# IDX Exchange Data Analyst Internship
-# Author: Samiksha Dubey
-# Date: 2026-06-22
-#
+
 # This script:
-# 1. Loads all available monthly CRMLSListing and CRMLSSold CSV files
+# 1. Loads all available monthly CRMLSSold CSV files
 # 2. Concatenates them into two combined datasets
 # 3. Filters both to PropertyType == 'Residential' only
-# 4. Saves the filtered datasets as listings.csv and sold.csv
+# 4. Saves the filtered datasets as sold.csv
 
 # Sold files start from 202401 (January, 2024) till 202605 (May 2026)
 
