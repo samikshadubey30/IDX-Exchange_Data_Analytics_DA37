@@ -162,6 +162,11 @@ print("\nQ3: HIGHEST MEDIAN PRICE BY COUNTY (LISTINGS CLEANED)")
 county_prices = listings_cleaned.groupby('CountyOrParish')['ListPrice'].median().sort_values(ascending=False)
 print(county_prices.head(10))
 
+# Save the version 2 dataset as required
+output_path = os.path.join(data_folder, "listings_cleaned_v2.csv")
+listings_cleaned.to_csv(output_path, index=False)
+print(f"\nFinal polished active listings dataset exported to: {output_path}")
+
 """
 =====================================================================
                     MLS ACTIVE INVENTORY NOTES
@@ -373,3 +378,8 @@ print(f"Number of rows with critical date errors: {len(date_anomalies)}")
 print("\nQ6: HIGHEST MEDIAN CLOSE PRICE BY COUNTY")
 county_sold_prices = sold_cleaned.groupby('CountyOrParish')['ClosePrice'].median().sort_values(ascending=False)
 print(county_sold_prices.head(10))
+
+# Save the version 2 dataset as required
+output_path = os.path.join(data_folder, "sold_cleaned_v2.csv")
+sold_cleaned.to_csv(output_path, index=False)
+print(f"\nFinal polished sold dataset exported to: {output_path}")
