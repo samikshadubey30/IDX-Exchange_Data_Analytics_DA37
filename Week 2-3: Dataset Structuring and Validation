@@ -164,7 +164,7 @@ print(county_prices.head(10))
 
 """
 =====================================================================
-                    MLS ACTIVE INVENTORY CAVEAT NOTES
+                    MLS ACTIVE INVENTORY NOTES
 =====================================================================
 1) What are the median and average close prices?
 -> Active listings have not sold yet. They completely lack a ClosePrice column 
