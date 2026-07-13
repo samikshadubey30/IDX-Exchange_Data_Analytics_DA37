@@ -1,10 +1,18 @@
-# SAMIKSHA DUBEY
+# ==============================================================================
+# IDX Exchange Data Analyst Internship
+# Purpose: Enrich the cleaned listings residential dataset with the national 
+#          30 year fixed mortgage rate from the St. Louis Federal Reserve (FRED),
+#          resampled from a weekly baseline to a calendar monthly average baseline.
+#
+# Execution & Audit Ledger Results:
+# - Data Source Ingested: listings_cleaned_v2.csv
+# - Listings Ingested Volume: 591,890 active residential rows loaded from V2
+# - Timeline Alignment Key: Year-Month format derived from 'ListingContractDate'
+# - Target Data Quality Validation: 0 unmatched macro rate rows (100% matched)
+# - Master Export Layer: Safely saved as 'listings_v3.csv'
+# ==============================================================================
 
 # LISTING DATASET
-
-# 2-3 WEEK CONTINUED
-
-# Mortgage Rate Enrichment
 
 import pandas as pd
 import os
