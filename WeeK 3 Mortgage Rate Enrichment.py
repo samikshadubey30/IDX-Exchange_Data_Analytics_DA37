@@ -11,6 +11,17 @@
 # - Target Data Quality Validation: 0 unmatched macro rate rows (100% matched)
 # - Master Export Layer: Safely saved as 'listings_v3.csv'
 # ==============================================================================
+# Results:
+
+# Listings:
+# Columns before merge: 71
+# Columns after merge: 73
+# Unmatched rows: 0
+
+# Sold
+# Columns before merge: 70
+# Columns after merge: 72
+# Unmatched rows: 0
 
 # LISTING DATASET
 
