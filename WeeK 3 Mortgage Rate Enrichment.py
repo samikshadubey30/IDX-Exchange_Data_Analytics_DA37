@@ -17,56 +17,49 @@
 import pandas as pd
 import os
 
-# Pointing to my actual directory where the v2 file lives
 data_folder = "/Users/samikshadubey/Downloads/IDX Code/Files"
-input_path = os.path.join(data_folder, "listings_cleaned_v2.csv")
+input_file = os.path.join(data_folder, "listings_cleaned_v2.csv")
+output_file = os.path.join(data_folder, "listings_v3.csv")
 
-print("=== STARTING LISTINGS PIPELINE MORTGAGE RATE ENRICHMENT ===")
 
-# 1: Fetch live data from FRED API
-print("\n[Step 1] Fetching live data from FRED API...")
-url = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MORTGAGE30US"
-mortgage = pd.read_csv(url, parse_dates=['observation_date'])
-mortgage.columns = ['date', 'rate_30yr_fixed']
+def add_mortgage_rates(df):
+    print(f"Columns before merge: {df.shape[1]}")
 
-# 2: Resampling weekly rates to monthly averages
-print("[Step 2] Resampling weekly rates to monthly averages...")
-mortgage['year_month'] = mortgage['date'].dt.to_period('M')
-mortgage_monthly = (
-    mortgage.groupby('year_month')['rate_30yr_fixed']
-    .mean()
-    .reset_index()
-)
+    # Download mortgage rate data
+    url = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MORTGAGE30US"
+    mortgage = pd.read_csv(url, parse_dates=["observation_date"])
+    mortgage.columns = ["date", "rate_30yr_fixed"]
 
-# 3. Loading the Cleaned Version 2 Dataset
-print(f"\n[Step 3] Loading internal cleaned v2 data from: {input_path}")
-if not os.path.exists(input_path):
-    raise FileNotFoundError(f"Could not find the v2 file at {input_path}. Please check your folder.")
+    # Create monthly averages
+    mortgage["year_month"] = mortgage["date"].dt.to_period("M")
+    monthly_rates = (
+        mortgage.groupby("year_month", as_index=False)["rate_30yr_fixed"]
+        .mean()
+    )
 
-listings = pd.read_csv(input_path)
-print(f"-> Successfully loaded {listings.shape[0]} active listing rows from Version 2.")
+    # Aligning Timelines and Merge
+    df["year_month"] = pd.to_datetime(
+        df["ListingContractDate"], errors="coerce"
+    ).dt.to_period("M")
 
-# 4 Aligning timelines and merge
-print("\n[Step 4] Aligning timelines and creating matching join keys...")
-listings['year_month'] = pd.to_datetime(listings['ListingContractDate']).dt.to_period('M')
+    df = df.merge(monthly_rates, on="year_month", how="left")
 
-print("[Step 5] Performing left join with macro indicators...")
-listings_with_rates = listings.merge(mortgage_monthly, on='year_month', how='left')
+    print(f"Columns after merge: {df.shape[1]}")
+    print(f"Unmatched rows: {df['rate_30yr_fixed'].isna().sum()}")
 
-# 5. Data Quality Audit Check
-print("\n[Step 6] Running validation and data quality checks...")
-null_counts = listings_with_rates['rate_30yr_fixed'].isnull().sum()
-print(f"-> Unmatched rows (missing rate values): {null_counts}")
+    return df
 
-if null_counts == 0:
-    print(" Audit Passed: 100% of rows successfully matched to a monthly rate!")
-else:
-    print(" Audit Warning: Some rows did not find a match. Double check your contract dates.")
 
-# 6. Exporting the finalised enriched production file
-output_path = os.path.join(data_folder, "listings_v3.csv")
-listings_with_rates.to_csv(output_path, index=False)
-print(f"\n Pipeline Finished! Enriched file exported to: {output_path}")
+# Load data
+listings = pd.read_csv(input_file, low_memory=False)
+
+# Enrich dataset
+listings_v3 = add_mortgage_rates(listings)
+
+# Save output
+listings_v3.to_csv(output_file, index=False)
+
+print(f"Saved as: {output_file}")
 
 
 # SOLD DATASET
@@ -74,59 +67,51 @@ print(f"\n Pipeline Finished! Enriched file exported to: {output_path}")
 # 2-3 WEEK CONTINUED
 
 
-
 import pandas as pd
 import os
 
-# Pointing to my actual directory where the v2 file lives
 data_folder = "/Users/samikshadubey/Downloads/IDX Code/Files"
-input_path = os.path.join(data_folder, "sold_cleaned_v2.csv")
+input_file = os.path.join(data_folder, "sold_cleaned_v2.csv")
+output_file = os.path.join(data_folder, "sold_v3.csv")
 
-print("=== STARTING SOLD PIPELINE MORTGAGE RATE ENRICHMENT ===")
 
-# 1: Fetch live macroeconomic data from FRED API
-print("\n[Step 1] Fetching live data from FRED API...")
-url = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MORTGAGE30US"
-mortgage = pd.read_csv(url, parse_dates=['observation_date'])
-mortgage.columns = ['date', 'rate_30yr_fixed']
+def add_mortgage_rates(df):
+    print(f"Columns before merge: {df.shape[1]}")
 
-# 2: Resampling weekly rates to monthly averages
-print("[Step 2] Resampling weekly rates to monthly averages...")
-mortgage['year_month'] = mortgage['date'].dt.to_period('M')
-mortgage_monthly = (
-    mortgage.groupby('year_month')['rate_30yr_fixed']
-    .mean()
-    .reset_index()
-)
+    # Download mortgage rate data
+    url = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MORTGAGE30US"
+    mortgage = pd.read_csv(url, parse_dates=["observation_date"])
+    mortgage.columns = ["date", "rate_30yr_fixed"]
 
-# 3: Loading the Cleaned Version 2 Sold Dataset
-print(f"\n[Step 3] Loading internal cleaned v2 data from: {input_path}")
-if not os.path.exists(input_path):
-    raise FileNotFoundError(f"Could not find the v2 file at {input_path}. Please check your folder path.")
+    # Create monthly averages
+    mortgage["year_month"] = mortgage["date"].dt.to_period("M")
+    monthly_rates = (
+        mortgage.groupby("year_month", as_index=False)["rate_30yr_fixed"]
+        .mean()
+    )
 
-sold = pd.read_csv(input_path)
-print(f"-> Successfully loaded {sold.shape[0]} transaction rows from Version 2.")
+    # Alignning timeline and Merge
+    df["year_month"] = pd.to_datetime(
+        df["CloseDate"], errors="coerce"
+    ).dt.to_period("M")
 
-# 4: Aligning timelines and merge
-print("\n[Step 4] Aligning timelines and creating matching join keys...")
-# For sold data, we always anchor the tracking key off CloseDate
-sold['year_month'] = pd.to_datetime(sold['CloseDate']).dt.to_period('M')
+    df = df.merge(monthly_rates, on="year_month", how="left")
 
-print("[Step 5] Performing left join with macro indicators...")
-sold_with_rates = sold.merge(mortgage_monthly, on='year_month', how='left')
+    print(f"Columns after merge: {df.shape[1]}")
+    print(f"Unmatched rows: {df['rate_30yr_fixed'].isna().sum()}")
 
-# 5: Data Quality Audit Check
-print("\n[Step 6] Running validation and data quality checks...")
-null_counts = sold_with_rates['rate_30yr_fixed'].isnull().sum()
-print(f"-> Unmatched rows (missing rate values): {null_counts}")
+    return df
 
-if null_counts == 0:
-    print("Audit Passed: 100% of rows successfully matched to a monthly rate!")
-else:
-    print("Audit Warning: Some rows did not find a match. Double check your transaction close dates.")
 
-# 6: Exporting the finalized enriched production file as V3
-output_path = os.path.join(data_folder, "sold_v3.csv")
-sold_with_rates.to_csv(output_path, index=False)
-print(f"\n Pipeline Finished! Enriched file exported to: {output_path}")
+# Load data
+sold = pd.read_csv(input_file, low_memory=False)
+
+# Enrich dataset
+sold_v3 = add_mortgage_rates(sold)
+
+# Save output
+sold_v3.to_csv(output_file, index=False)
+
+print(f"Saved as: {output_file}")
+
 
