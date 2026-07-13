@@ -1,8 +1,10 @@
 # SAMIKSHA DUBEY
 
-# LISTINGS DATASET
+# LISTING DATASET
 
 # 2-3 WEEK CONTINUED
+
+# Mortgage Rate Enrichment
 
 import pandas as pd
 import os
